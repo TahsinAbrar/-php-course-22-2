@@ -1,28 +1,26 @@
 <?php
 
-echo "<h1>Hello PHP World</h1>";
+// echo "hello PHP world";
 
-echo "<br/>";
+// $path = './';
+$path = __DIR__;
+$files = scandir($path);
 
-echo "result: " . 2+2;
+// var_dump($files);exit;
+$files = array_diff($files, array('.', '..'));
 
-function init() {
-    // local scope
+echo "<h2>List of Files and Folder:</h2>";
+
+echo "<hr/>";
+
+foreach ($files as $file) {
+    if (is_dir($file)) {
+        echo "<hr/>";
+        echo "<b><a href='$file'>$file</a></b>";
+        echo "<hr/>";
+    } else {
+        echo "<a href='$file'>$file</a>";
+    }
+
+    echo "<br/>";
 }
-
-
-class MyClass
-{
-    // class local scope
-    public const API_VERSION = '1.0';
-}
-
-echo MyClass::API_VERSION;
-
-class MyAnotherClass
-{
-    public const API_VERSION = '2.0';
-}
-
-echo MyAnotherClass::API_VERSION;
-
