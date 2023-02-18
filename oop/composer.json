@@ -1,0 +1,15 @@
+{
+    "name": "xplorer/oop",
+    "autoload": {
+        "psr-4": {
+            "Xplorer\\PhpLearning\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tahsin Abrar",
+            "email": "abrar.cste@gmail.com"
+        }
+    ],
+    "require": {}
+}
