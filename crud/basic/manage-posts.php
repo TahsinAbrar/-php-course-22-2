@@ -1,28 +1,11 @@
 <?php
-$host = "127.0.0.1";
-$username = "root";
-$password = "";
-$db = "pondit_blog";
-$charset = "utf8mb4";
 
-// dsn = data source name
-$dsn = "mysql:host={$host};dbname={$db};charset={$charset}";
+require_once __DIR__ . './lib/database.php';
+require_once __DIR__ . './codes/Articles.php';
+// require_once __DIR__ . './lib/helpers.php';
 
-try {
-  $pdo = new PDO($dsn, $username, $password);
-  // set the PDO error mode to exception
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  // echo "Connected successfully";
+$articles = getArticles($pdo);
 
-  // $statement = $pdo->query("SELECT * FROM articles ORDER BY id DESC");
-  $query = "SELECT * FROM articles ORDER BY id DESC";
-  $statement = $pdo->query($query);
-
-  $articles = $statement->fetchAll(PDO::FETCH_OBJ);
-} catch (PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
-  die();
-}
 ?>
 
 <!DOCTYPE html>
@@ -156,6 +139,7 @@ try {
               <thead class="table-dark">
                 <tr>
                   <th scope="col">#</th>
+                  <th scope="col">Image thumbnail</th>
                   <th scope="col">Title</th>
                   <th scope="col">Category</th>
                   <th scope="col">Date</th>
@@ -165,15 +149,16 @@ try {
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($articles as $article): ?>
+                <?php foreach ($articles as $index => $article): ?>
                 <tr>
-                  <th scope="row">1</th>
+                  <th scope="row"><?php echo $index + 1; ?></th>
+                  <td><img class="w-50" src="<?php echo $article->image_path; ?>" alt=""></td>
                   <td><?php echo $article->title; ?></td>
                   <td><?php echo $article->categories; ?></td>
                   <td><?php echo $article->published_at; ?></td>
                   <td><?php echo $article->author_name; ?></td>
                   <td class="text-center text-success">
-                    <i class="fas fa-edit"></i>
+                    <a href="<?php echo 'edit.php?id=' . $article->id; ?>"><i class="fas fa-edit"></i></a>
                   </td>
                   <td class="text-center text-danger">
                     <i class="fa-solid fa-trash"></i>

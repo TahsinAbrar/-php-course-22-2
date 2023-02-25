@@ -1,12 +1,31 @@
 <?php
 
-session_start();
+require_once __DIR__ . './codes/Articles.php';
+require_once __DIR__ . './lib/database.php';
 require_once __DIR__ . './lib/helpers.php';
+
+if (empty($_GET['id'])) {
+    throw new \Exception('Invalid request');
+}
+
+$id = $_GET['id'];
+
+session_start();
+
+// dd($_GET['id']);
 
 $errors = $_SESSION['errors'] ?? [];
 
 // Destroying session
 session_destroy();
+
+
+
+$article = getArticleById($pdo, $id);
+
+// dd($article);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +119,7 @@ session_destroy();
                     <form action="store.php" method="POST" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input name="title" type="text" class="form-control" id="title" placeholder="Enter Title">
+                            <input name="title" type="text" class="form-control" id="title" placeholder="Enter Title" value="<?php echo $article->title; ?>">
                         </div>
                         <div class="form-floating mb-3">
                             <textarea required name="description" class="form-control" placeholder="Write Here" id="floatingTextarea2" style="height: 100px"></textarea>
