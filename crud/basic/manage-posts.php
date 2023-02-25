@@ -144,7 +144,7 @@ try {
         <div class="row mb-2 justify-content-around ">
           <div class="col-6"><h2>All Posts</h2></div>
           <div class="col-6 text-end">
-            <a class="btn btn-outline-primary" href="addpost.html">Add Post</a>
+            <a class="btn btn-outline-primary" href="create.php">Add Post</a>
           </div>
         </div>
         <div class="row">
