@@ -1,0 +1,15 @@
+{
+    "name": "autobots/blog",
+    "autoload": {
+        "psr-4": {
+            "Autobots\\Blog\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tahsin Abrar",
+            "email": "abrar.cste@gmail.com"
+        }
+    ],
+    "require": {}
+}
