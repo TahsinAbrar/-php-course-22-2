@@ -7,38 +7,51 @@ use PDOException;
 
 class Database
 {
-    private $pdo;
+    private static array $config = [];
+    private static $instance;
+    public static $counter = 0;
 
-    public function __construct()
+    protected function __construct()
     {
         //
     }
 
-    public function getPdo()
+    public static function getInstance()
     {
-        return $this->pdo;
+        if (empty(self::$instance)) {
+
+            self::$counter++;
+            $host = self::$config['host'];
+            $username = self::$config['username'];
+            $password = self::$config['password'];
+            $db = self::$config['database'];
+            $charset = self::$config['charset'];
+
+            // dsn = data source name
+            $dsn = "mysql:host={$host};dbname={$db};charset={$charset}";
+
+            try {
+                self::$instance = new PDO($dsn, $username, $password);
+
+                // set the PDO error mode to exception
+                self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                $message = "Connection failed: " . $e->getMessage();
+                throw new \Exception($message);
+            }
+        }
+
+        return self::$instance;
     }
 
-    public function connect()
+    public static function loadConfig(array $config)
     {
-        $host = "127.0.0.1";
-        $username = "root";
-        $password = "";
-        $db = "pondit_blog";
-        $charset = "utf8mb4";
-
-        // dsn = data source name
-        $dsn = "mysql:host={$host};dbname={$db};charset={$charset}";
-
-        try {
-            $this->pdo = new PDO($dsn, $username, $password);
-            // set the PDO error mode to exception
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            return $this->pdo;
-        } catch (PDOException $e) {
-            $message = "Connection failed: " . $e->getMessage();
-            throw new \Exception($message);
-        }
+        self::$config = [
+            'host' => $config['host'],
+            'username' => $config['username'],
+            'password' => $config['password'],
+            'database' => $config['database'],
+            'charset' => "utf8mb4",
+        ];
     }
 }
