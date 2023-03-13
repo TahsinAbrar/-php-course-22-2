@@ -2,49 +2,52 @@
 
 namespace Autobots\Blog\Controllers;
 
-use Autobots\Blog\Library\Database;
-use PDO;
-use PDOException;
+// use Autobots\Blog\Library\Database;
+use Autobots\Blog\Library\ResponseHandler;
+use Autobots\Blog\Models\Article;
+// use PDO;
+// use PDOException;
 
 class ArticlesController
 {
-    private PDO $pdo;
+    // private PDO $pdo;
 
     public function __construct()
     {
-        $this->pdo = Database::getInstance();
+        // $this->pdo = Database::getInstance();
     }
 
-    public function getArticles()
+    public function index()
     {
+        // show list of articles
         try {
             // $statement = $pdo->query("SELECT * FROM articles ORDER BY id DESC");
-            $query = "SELECT * FROM articles ORDER BY id DESC";
-            $statement = $this->pdo->query($query);
+            // $query = "SELECT * FROM articles ORDER BY id DESC";
+            // $statement = $this->pdo->query($query);
 
-            return $statement->fetchAll(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
+            $articles = new Article();
+
+            $data = [];
+            $data['articles'] = $articles->list();
+
+            $viewPath = 'articles' . DIRECTORY_SEPARATOR .'manage'; // articles/manage
+
+            return ResponseHandler::renderView($viewPath, $data);
+        } catch (\Exception $e) {
             echo "Query failed: " . $e->getMessage();
             die();
         }
     }
 
-    public function getArticleById($id)
+    public function create()
     {
-        try {
-            // $statement = $pdo->query("SELECT * FROM articles ORDER BY id DESC");
-            $query = "SELECT * FROM articles WHERE id = {$id} LIMIT 1";
-            $statement = $this->pdo->query($query);
-
-            return $statement->fetch(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            echo "Query failed: " . $e->getMessage();
-            die();
-        }
+        // show create page of article
+        return ResponseHandler::renderView('articles/create');
     }
 
     public function store($request)
     {
+        die;
         try {
             // var_dump($request);
             // var_dump($_FILES);
@@ -138,4 +141,52 @@ class ArticlesController
             //
         }
     }
+
+    public function show($id)
+    {
+        // show specific article details according to article id
+    }
+
+    public function edit()
+    {
+        $id = $_GET['id'];
+        // show edit page of specific article according to article id
+        $article = new Article();
+
+        $data = [];
+        // $data['article'] = $this->getArticleById($id);
+        $data['article'] = $article->find($id);
+
+        return ResponseHandler::renderView('articles/edit', $data);
+    }
+
+    public function update($id, $request)
+    {
+        // update the article according to id
+    }
+
+    public function destroy($id, $request)
+    {
+        // update the article according to id
+    }
+
+    // public function getArticleById($id)
+    // {
+    //     try {
+    //         // $statement = $pdo->query("SELECT * FROM articles ORDER BY id DESC");
+    //         $query = "SELECT * FROM articles WHERE id = {$id} LIMIT 1";
+    //         $statement = $this->pdo->query($query);
+
+    //         $article = $statement->fetch(PDO::FETCH_OBJ);
+
+    //         if (!$article) {
+    //             throw new \Exception('Data not found');
+    //         }
+
+    //         return $article;
+    //     } catch (PDOException $e) {
+    //         echo "Query failed: " . $e->getMessage();
+    //         die();
+    //     }
+    // }
 }

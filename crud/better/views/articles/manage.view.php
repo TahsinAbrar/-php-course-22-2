@@ -6,7 +6,7 @@
     <div class="row mb-2 justify-content-around ">
       <div class="col-6"><h2>All Posts</h2></div>
       <div class="col-6 text-end">
-        <a class="btn btn-outline-primary" href="create.php">Add Post</a>
+        <a class="btn btn-outline-primary" href="/create">Add Post</a>
       </div>
     </div>
     <div class="row">
@@ -37,7 +37,7 @@
               <td><?php echo $article->published_at; ?></td>
               <td><?php echo $article->author_name; ?></td>
               <td class="text-center text-success">
-                <a href="<?php echo 'edit.php?id=' . $article->id; ?>"><i class="fas fa-edit"></i></a>
+                <a href="/edit?id=<?php echo $article->id; ?>"><i class="fas fa-edit"></i></a>
               </td>
               <td class="text-center text-danger">
                 <i class="fa-solid fa-trash"></i>

@@ -1,22 +1,17 @@
 <?php
 
 require_once __DIR__ . './../vendor/autoload.php';
+require_once __DIR__ . './../routes/web.php';
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . './../');
 $dotenv->load();
 
 $dbConfig = include_once __DIR__ . './../config/database.php';
-// var_dump($dbConfig);die;
 
-use Autobots\Blog\Controllers\ArticlesController;
-use Autobots\Blog\Library\Database;
+\Autobots\Blog\Library\Database::loadConfig($dbConfig);
 
-Database::loadConfig($dbConfig);
+// Control everything from here.....
+$parseUrl = parse_url($_SERVER['REQUEST_URI']);
 
-
-$articlesObj = new ArticlesController();  // Database 1
-$articles = $articlesObj->getArticles();
-
-
-include_once __DIR__ . './../views/articles/manage.view.php';
-
+routeToController($parseUrl['path']);
