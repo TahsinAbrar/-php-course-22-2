@@ -1,16 +1,20 @@
 <?php
 
 use Autobots\Blog\Controllers\ArticlesController;
+use Autobots\Blog\Controllers\CategoriesController;
 
 function routeToController($path) {
     $routes = [
-        // '/' => 'manage-posts',
-        // '/create' => 'create',
-        // '/edit' => 'edit',
-        // 'default' => 'manage-posts',
         '/' => ['GET', ArticlesController::class, 'index'],
-        '/create' => ['GET', ArticlesController::class, 'create'],
-        '/edit' => ['GET', ArticlesController::class, 'edit'],
+        '/articles' => ['GET', ArticlesController::class, 'index'],
+        '/articles/create' => ['GET', ArticlesController::class, 'create'],
+        '/articles/store' => ['POST', ArticlesController::class, 'store'],
+        '/articles/edit' => ['GET', ArticlesController::class, 'edit'],
+        '/categories' => ['GET', CategoriesController::class, 'index'],
+        '/categories/create' => ['GET', CategoriesController::class, 'create'],
+        '/categories/store' => ['POST', CategoriesController::class, 'store'],
+        '/categories/edit' => ['GET', CategoriesController::class, 'edit'],
+
         // 'default' => 'manage-posts',
     ];
 

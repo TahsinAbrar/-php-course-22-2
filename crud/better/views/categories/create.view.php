@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row mt-2">
             <div class="col">
-                <h1>Edit Post</h1>
+                <h1>Add Category</h1>
             </div>
         </div>
         <?php if (!empty($errors)) : ?>
@@ -19,8 +19,7 @@
         <?php endif; ?>
         <div class="row mt-2 w-75 bg-light mx-auto">
             <div class="col">
-                <?php //include __DIR__ . DIRECTORY_SEPARATOR . 'edit_form.view.php'; ?>
-                <?php include __DIR__ . DIRECTORY_SEPARATOR . 'form.view.php'; ?>
+                <?php include_once __DIR__ . DIRECTORY_SEPARATOR . 'form.view.php'; ?>
             </div>
         </div>
     </div>

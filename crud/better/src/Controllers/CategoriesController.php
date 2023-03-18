@@ -6,18 +6,18 @@ use Autobots\Blog\Library\ResponseHandler;
 use Autobots\Blog\Models\Article;
 use Autobots\Blog\Models\Category;
 
-class ArticlesController
+class CategoriesController
 {
-    // show list of articles
+    // show list of categories
     public function index()
     {
         try {
-            $articles = new Article();
+            $categories = new Category();
 
             $data = [];
-            $data['articles'] = $articles->list();
+            $data['categories'] = $categories->list();
 
-            $viewPath = 'articles' . DIRECTORY_SEPARATOR .'manage'; // articles/manage
+            $viewPath = 'categories' . DIRECTORY_SEPARATOR .'manage'; // categories/manage
 
             return ResponseHandler::renderView($viewPath, $data);
         } catch (\Exception $e) {
@@ -30,7 +30,7 @@ class ArticlesController
     public function create()
     {
         session_start();
-
+        
         $data = [];
         $data['errors'] = $_SESSION['errors'] ?? [];
         $data['old'] = $_SESSION['old'] ?? [];
@@ -38,11 +38,7 @@ class ArticlesController
 
         session_destroy();
 
-        // if (!empty($data['old'])) {
-        //     dd($data);
-        // }
-
-        return ResponseHandler::renderView('articles/create', $data);
+        return ResponseHandler::renderView('categories/create', $data);
     }
 
     public function store()
@@ -51,39 +47,16 @@ class ArticlesController
 
         try {
             // validation comes first..!
-            $title = $request['title'] ?? null;
-            $slug = str_replace(" ", "-", $title) . "-" . rand(1000, 9999);
-            $description = $request['description'] ?? null;
-            $authorName = $request['author_name'] ?? null;
-            $categories = $request['categories'] ?? null;
+            $name = $request['name'] ?? null;
+            $slug = str_replace(" ", "-", $name) . "-" . rand(1000, 9999);
             $uploadedImage = $_FILES['image_path'] ?? null;
             $imagePath = null;
 
-            // var_dump($title, $description, $authorName, $categories, $imagePath);
-            // var_dump("Am I alive?");die;
-
-
             $errors = [];
 
-            // if (empty($title) || empty($description) || empty($authorName)) {
-            //     // throw new \Exception('Title is required');
-            //     throw new \Exception('All inputs are required');
-            // }
-
-            if (empty($title)) {
-                $errors['title'] = 'Title is required';
+            if (empty($name)) {
+                $errors['name'] = 'Category name is required';
             }
-
-            if (empty($description)) {
-                $errors['description'] = 'Description is required';
-            }
-
-            if (empty($authorName)) {
-                $errors['author_name'] = 'Author name is required';
-            }
-
-            // pass by value ---> bindValue
-            // pass by reference ---> bindParam (variable)
 
             if (empty($errors)) {
 
@@ -93,23 +66,19 @@ class ArticlesController
                         mkdir('images');
                     }
 
-                    if (!is_dir('images/articles')) {
-                        mkdir('images/articles');
+                    if (!is_dir('images/categories')) {
+                        mkdir('images/categories');
                     }
 
-                    $imagePath = 'images/articles/' . uniqid() . '_' . str_replace(" ", "_", $uploadedImage['name']);
+                    $imagePath = 'images/categories/' . uniqid() . '_' . str_replace(" ", "_", $uploadedImage['name']);
                     move_uploaded_file($uploadedImage['tmp_name'], $imagePath);
                 }
 
                 try {
-
-                    $articleObj = new Article();
-                    $articleObj->save(
-                        title: $title,
-                        description: $description,
+                    $categoryObj = new Category();
+                    $categoryObj->save(
+                        name: $name,
                         slug: $slug,
-                        categories: $categories,
-                        authorName: $authorName,
                         imagePath: $imagePath
                     );
 
@@ -129,7 +98,7 @@ class ArticlesController
                 $_SESSION['errors'] = $errors;
                 $_SESSION['old'] = $request;
 
-                header('Location: /articles/create');
+                header('Location: /categories/create');
             }
         } catch (\Throwable $e) {
             //
@@ -149,7 +118,6 @@ class ArticlesController
 
         $data = [];
         $data['article'] = $article->find($id);
-        $data['categories'] = (new Category())->list();
 
         return ResponseHandler::renderView('articles/edit', $data);
     }

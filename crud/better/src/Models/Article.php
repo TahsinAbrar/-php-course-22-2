@@ -2,22 +2,16 @@
 
 namespace Autobots\Blog\Models;
 
-use Autobots\Blog\Library\Database;
 use PDO;
 use PDOException;
 
-class Article
+class Article extends Model
 {
-    private PDO $pdo;
-
-    public function __construct()
-    {
-        $this->pdo = Database::getInstance();
-    }
+    protected const TABLE = 'articles';
 
     public function list()
     {
-        $query = "SELECT * FROM articles ORDER BY id DESC";
+        $query = "SELECT * FROM " . self::TABLE . " ORDER BY id DESC";
         $statement = $this->pdo->query($query);
 
         return $statement->fetchAll(PDO::FETCH_OBJ);
@@ -41,5 +35,23 @@ class Article
             echo "Query failed: " . $e->getMessage();
             die();
         }
+    }
+
+    public function save($title, $description, $slug, $categories, $authorName, $imagePath = null)
+    {
+        // $query = "INSERT INTO articles (title, slug, description, categories,author_name,image_path) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO articles (title, slug, description, categories,author_name,image_path)
+          VALUES (:title, :slug, :description , :categories, :author_name, :image_path)";
+
+        $statement = $this->pdo->prepare($query);
+        $statement->bindValue('title', $title);
+        $statement->bindValue('description', $description);
+        $statement->bindValue('slug', $slug);
+        $statement->bindValue('categories', $categories);
+        $statement->bindValue('author_name', $authorName);
+        $statement->bindValue('image_path', $imagePath);
+
+        $statement->execute();
+        // $statement->execute([$title, $slug, $description, $categories, $authorName, $imagePath]);
     }
 }
