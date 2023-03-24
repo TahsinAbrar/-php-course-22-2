@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <p class="mt-2 mb-0">All Rights Reserved by Mahmud Hasan Rabbi</p>
+                <p class="mt-2 mb-0">All Rights Reserved by Pondit - Batch-06</p>
 
                 <ul class="nav justify-content-center">
                     <li class="nav-item">

@@ -1,11 +1,18 @@
 <?php
 
 use Autobots\Blog\Controllers\ArticlesController;
+use Autobots\Blog\Controllers\AuthController;
 use Autobots\Blog\Controllers\CategoriesController;
+use Autobots\Blog\Controllers\RegistrationController;
 
 function routeToController($path) {
     $routes = [
         '/' => ['GET', ArticlesController::class, 'index'],
+        '/login' => ['GET', AuthController::class, 'loginView'],
+        '/logout' => ['GET', AuthController::class, 'logout'],
+        '/auth/login' => ['POST', AuthController::class, 'checkUser'],
+        '/register' => ['GET', RegistrationController::class, 'registerView'],
+        '/auth/register' => ['POST', RegistrationController::class, 'signup'],
         '/articles' => ['GET', ArticlesController::class, 'index'],
         '/articles/create' => ['GET', ArticlesController::class, 'create'],
         '/articles/store' => ['POST', ArticlesController::class, 'store'],

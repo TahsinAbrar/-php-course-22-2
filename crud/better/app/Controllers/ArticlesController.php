@@ -29,14 +29,14 @@ class ArticlesController
     // show create page of article
     public function create()
     {
-        session_start();
-
         $data = [];
         $data['errors'] = $_SESSION['errors'] ?? [];
         $data['old'] = $_SESSION['old'] ?? [];
         $data['categories'] = (new Category())->list();
 
-        session_destroy();
+        unset($_SESSION['errors']);
+        unset($_SESSION['old']);
+        // session_destroy();
 
         // if (!empty($data['old'])) {
         //     dd($data);
@@ -122,9 +122,6 @@ class ArticlesController
                     die();
                 }
             } else {
-                // Starting session
-                session_start();
-
                 // Storing session data
                 $_SESSION['errors'] = $errors;
                 $_SESSION['old'] = $request;

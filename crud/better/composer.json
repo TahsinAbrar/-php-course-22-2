@@ -5,7 +5,7 @@
             "helpers.php"
         ],
         "psr-4": {
-            "Autobots\\Blog\\": "src/"
+            "Autobots\\Blog\\": "app/"
         }
     },
     "authors": [

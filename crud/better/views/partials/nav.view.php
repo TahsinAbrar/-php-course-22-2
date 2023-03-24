@@ -8,11 +8,11 @@
             <div class="mx-auto"></div>
             <ul class="navbar-nav navbar-nav-scroll text-white" style="--bs-scroll-height: 100%">
                 <li class="nav-item">
-                    <a class="nav-link py-2" href="../index.html">Home</a>
+                    <a class="nav-link py-2" href="/">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link py-2" href="./admin/addpost.html">Write Now</a>
+                    <a class="nav-link py-2" href="/articles/create">Write Now</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,9 +41,16 @@
                         </button>
                     </form>
                 </li>
+                <?php if (isset($_SESSION['is_user_logged_in']) && $_SESSION['is_user_logged_in'] === true): ?>
                 <li class="nav-item py-1">
-                    <a class="btn btn-secondary" href="login.html" role="button">Login</a>
+                    <span><?php echo $_SESSION['logged_in_user_name'] ?? '---'; ?></span>
+                    <a class="btn btn-secondary" href="/logout" role="button">Logout</a>
                 </li>
+                <?php else: ?>
+                <li class="nav-item py-1">
+                    <a class="btn btn-secondary" href="/login" role="button">Login</a>
+                </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
