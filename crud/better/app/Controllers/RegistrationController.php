@@ -34,15 +34,9 @@ class RegistrationController
                 throw new \Exception('Email is not valid');
             }
 
-            // plain password
-            // $pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$";
-
-            // dd(preg_match($pattern, $_POST['password']));
-            // if (preg_match($pattern, $_POST['password'])) {
-            //     dd('strong');
-            // } else {
-            //     dd('weak');
-            // }
+            if (checkPasswordStrength($_POST['password']) === 0) {
+                throw new \Exception('Password strength is weak');
+            }
 
             $user->save(
                 name: htmlspecialchars($_POST['name']),
