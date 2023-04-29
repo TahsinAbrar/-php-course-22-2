@@ -20,8 +20,17 @@ Route::get('/', function () {
 });
 
 
+Route::get('/blank', function () {
+    return view('themes.coreui.layouts');
+});
+
 Route::get('/about', [HomeController::class, 'about']);
 
-Route::get('/articles', [ArticlesController::class, 'index']);
-Route::get('/articles/create', [ArticlesController::class, 'create']);
-Route::post('/articles', [ArticlesController::class, 'store']);
+Route::group(['prefix' => '/admin/articles', 'as' => 'manage.articles.'], function () {
+
+    Route::get('/', [ArticlesController::class, 'index'])->name('index');
+    Route::get('/create', [ArticlesController::class, 'create'])->name('create');
+    Route::post('/', [ArticlesController::class, 'store'])->name('store');
+});
+
+
