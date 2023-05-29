@@ -12,12 +12,14 @@ class ArticlesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [];
+        $limit = $request->has('limit') ? $request->get('limit') : 5;
         // $data['articles'] = DB::table('articles')->get();
-        $data['articles'] = Article::all();
+        $data['articles'] = Article::paginate($limit)->withQueryString();
 
+        // dd($data);
         return view('articles.index', $data);
     }
 
@@ -33,6 +35,7 @@ class ArticlesController extends Controller
             ['id' => 3, 'name' => 'Politics'],
             ['id' => 4, 'name' => 'World'],
         ];
+
         return view('articles.create', $data);
     }
 
