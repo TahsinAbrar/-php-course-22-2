@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
-use App\Models\Product;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +30,14 @@ Route::get('hello-world', function() {
     ], 200);
 });
 
-Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
-    Route::resource('/products', ProductController::class);
+Route::group(['prefix' => 'v1'], function () {
+
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::resource('/products', ProductController::class);
+    });
+
+    Route::get('/projects', [ProjectController::class, 'index']);
+
+    Route::post('/projects', [ProjectController::class, 'store']);
 });
+
